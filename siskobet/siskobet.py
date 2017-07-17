@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
+
 """ Siskobetting """
 
 import re
@@ -24,8 +26,7 @@ def html_to_text(texto):
 
         return salida.split('\n') or u''
     else:
-        return BeautifulSoup(texto, "lxml").body.get_text().split('\n')
-
+        return BeautifulSoup(texto, "lxml").body.get_text(separator=u'\n').split('\n')
 
 def parsea_texto(texto):
     """ Buscamos la información que queremos """
