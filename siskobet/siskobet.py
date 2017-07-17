@@ -25,6 +25,19 @@ def html_to_text(texto):
                 salida += matching.group(1) + "\n"
 
         return salida.split('\n') or u''
+    elif "Advised Odds" in texto:
+        mybs = BeautifulSoup(texto, "lxml")
+        apuestas = mybs.body.findAll(text='Advised Odds')
+        salida = "Advised Odds\n"
+        for apuesta in apuestas:
+            b_tag = apuesta.parent.findNext('tr')
+            for campo in b_tag.findAll('td'):
+                salida += campo.get_text() + "\t"
+
+            salida += "\n"
+
+
+        return salida
     else:
         return BeautifulSoup(texto, "lxml").body.get_text(separator=u'\n').split('\n')
 
@@ -41,7 +54,8 @@ def parsea_texto(texto):
               ]
 
     combined = "(" + ")|(".join(regexes) + ")"
-
+    if "Advised Odds" in texto:
+        return texto
     try:
         for line in texto:
             if re.search(combined, line) \
