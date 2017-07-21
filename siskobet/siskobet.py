@@ -26,17 +26,17 @@ def html_to_text(texto):
 
         return salida.split('\n') or u''
     elif "Advised Odds" in texto:
-        mybs = BeautifulSoup(texto, "lxml")
-        apuestas = mybs.body.findAll(text='Advised Odds')
         salida = "Advised Odds\n"
-        for apuesta in apuestas:
-            b_tag = apuesta.parent.findNext('tr')
-            for campo in b_tag.findAll('td'):
-                salida += campo.get_text() + "\t"
+        
+        lineas = texto.split('\n')
 
-            salida += "\n"
-
-
+        for i in range(0, len(lineas)):
+            if "Advised Odds" in lineas[i]:
+                apuesta = ""
+                for z in range(1, 7):
+                    apuesta += lineas[i+z].replace('\t', '').replace('Odds for this selection provided by', '')
+                    apuesta += ' - '
+                salida += apuesta[:-2] + '\n'
         return salida
     else:
         return BeautifulSoup(texto, "lxml").body.get_text(separator=u'\n').split('\n')
